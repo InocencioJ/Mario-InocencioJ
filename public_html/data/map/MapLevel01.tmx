@@ -3,9 +3,17 @@
  <tileset firstgid="1" name="background-tiles" tilewidth="70" tileheight="70">
   <image source="../img/background-tiles.png" width="910" height="910"/>
  </tileset>
+ <tileset firstgid="170" name="meta-tiles" tilewidth="70" tileheight="70">
+  <image source="../img/meta-tiles.png" width="350" height="70"/>
+ </tileset>
  <layer name="backGround" width="16" height="9">
   <data encoding="base64" compression="zlib">
    eJxjYBgFIxnYUogBg+AD0Q==
+  </data>
+ </layer>
+ <layer name="collision" width="16" height="9" opacity="0.18">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFIxmsoxADAHQPCuE=
   </data>
  </layer>
 </map>
