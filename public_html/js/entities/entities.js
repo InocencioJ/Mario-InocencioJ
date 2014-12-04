@@ -80,7 +80,7 @@ game.BadGuy = me.Entity.extend({
         
         this.spritewidth = 60;
         var width = settings.width;
-        x = this.pcs.x;
+        x = this.pos.x;
         this.startX = x;
         this.endX = x + width - this.spriteWidth;
         this.pos.x = x + width - this.spritewidth;
@@ -96,9 +96,32 @@ game.BadGuy = me.Entity.extend({
         
         this.body.setVelocity(4, 6);
         
-   },
+     },
     update: function(delta) {
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
+        
+        if(this.alive){
+            if(this.WalkLeft && this.pos.x <= this.startX){
+                this .walkLeft = false; 
+           }else if(!this.WalkLeft && this.pos.x >= this.endX){
+               this.walkLeft = true;
+            }
+            this.flipX(!this.walkLeft);
+            this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
+            
+        }else{
+            me.game.world.removeChild(this);
+        }
+        
+        this._super(me.Entity, "update", [delta]);
+        return true;
+    },
+    collideHandler: function(){
+    
     }
+
+
+
 });
+
