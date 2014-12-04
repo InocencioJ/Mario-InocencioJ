@@ -43,7 +43,7 @@ game.PlayerEntity = me.Entity.extend({
         return true;
     },
     collideHandler: function(response) {
- 
+
     }
 
 
@@ -63,4 +63,42 @@ game.LevelTrigger = me.Entity.extend({
         me.state.current().resetPlayer(this.xSpawn, this.ySpawn);
     }
 
+});
+
+game.BadGuy = me.Entity.extend({
+    init: function(x, y, settings) {
+        this._super(me.Entity, 'init', [x, y, {
+                image: "slime",
+                spritewidth: "60",
+                spriteheight: "28",
+                width: 60,
+                height: 28,
+                getShape: function() {
+                    return (new me.Rect(0, 0, 60, 28)).toPolygon();
+                }
+            }]);
+        
+        this.spritewidth = 60;
+        var width = settings.width;
+        x = this.pcs.x;
+        this.startX = x;
+        this.endX = x + width - this.spriteWidth;
+        this.pos.x = x + width - this.spritewidth;
+        this.updateBounds();
+        
+        this.alwaysUpdate = true;
+        
+        this.WalkLeft = false;
+        this.alive = true;
+        this.type = "BadGuy";
+        
+        this.renderable.addAnimation("run", [0, 1, 2], 80);
+        
+        this.body.setVelocity(4, 6);
+        
+   },
+    update: function(delta) {
+        this.body.update(delta);
+        me.collision.check(this, true, this.collideHandler.bind(this), true);
+    }
 });
