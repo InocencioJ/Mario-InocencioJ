@@ -14,18 +14,33 @@ game.PlayerEntity = me.Entity.extend({
 
         this.renderable.addAnimation("idle", [3]);
         this.renderable.addAnimation("smallWalk", [8, 9, 10, 11, 12, 13], 80);
-
+        /*this code allows the player animation to move using to frames from player 8-13
+         *the 80 at the end tell the animation how fast the animation is going to move*/
         this.renderable.setCurrentAnimation("idle");
-
+        
         this.body.setVelocity(5, 20);
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
+        /*the velocity code sets the code so move at a specific speed
+         *the viewport code makes the camera follow mthe player*/
     },
     update: function(delta) {
         if (me.input.isKeyPressed("right")) {
             this.body.vel.x += this.body.accel.x * me.timer.tick;
-
-        } else {
+            this.flipX(false);
+            /*the pressed key checks if the right key is pressed*/
+        }else if(me.input.isKeyPressed("left")){
+            this.body.vel.x -= this.body.accel.x * me.timer.tick;
+            this.flipX(true);
+        }
+        else {
             this.body.vel.x = 0;
+            /*this code combines the volocity and position of the player to make him move*/
+        }
+        if(me.input.isKeyPressed("up")){
+            if(!this.body.jumping && !this.body.falling){
+                this.body.jumping = true;
+                this.body.vel.y -=this.body.accel.y *me.timer.tick;
+            }
         }
 
         this.body.update(delta);
@@ -34,16 +49,32 @@ game.PlayerEntity = me.Entity.extend({
         if (this.body.vel.x !== 0) {
             if (!this.renderable.isCurrentAnimation("smallWalk")) {
                 this.renderable.setCurrentAnimation("smallWalk");
+                /*this code makes the person who does the action smallwalk*/
             }
-        } else {
+        }
+        
+        else {
             this.renderable.setCurrentAnimation("idle");
         }
 
         this._super(me.Entity, "update", [delta]);
         return true;
+        
     },
     collideHandler: function(response) {
-
+        var ydif = this.pos.y - response.b.pos.y;
+        console.log(ydif);
+        
+        if(response.b.type === 'BadGuy'){
+            if(ydif <= -115){
+                response.b.alive = false;
+            }else{
+                
+            
+            
+            me.state.change(me.state.MENU);
+        }
+        }
     }
 
 
@@ -52,12 +83,15 @@ game.PlayerEntity = me.Entity.extend({
 game.LevelTrigger = me.Entity.extend({
     init: function(x, y, settings) {
         this._super(me.Entity, 'init', [x, y, settings]);
+        /*if some thing hits the player the player this code will push the action 
+         *to the collision code*/
         this.body.onCollision = this.onCollision.bind(this);
         this.level = settings.level;
         this.xSpawn = settings.xSpawn;
         this.ySpawn = settings.ySpawn;
     },
     onCollision: function() {
+        /*this code will make the hit box of a object an limit it from its self from being hit again*/
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
         me.levelDirector.loadLevel(this.level);
         me.state.current().resetPlayer(this.xSpawn, this.ySpawn);
@@ -82,13 +116,13 @@ game.BadGuy = me.Entity.extend({
         var width = settings.width;
         x = this.pos.x;
         this.startX = x;
-        this.endX = x + width - this.spriteWidth;
+        this.endX = x + width - this.spritewidth;
         this.pos.x = x + width - this.spritewidth;
         this.updateBounds();
         
         this.alwaysUpdate = true;
         
-        this.WalkLeft = false;
+        this.walkLeft = false;
         this.alive = true;
         this.type = "BadGuy";
         
@@ -102,9 +136,9 @@ game.BadGuy = me.Entity.extend({
         me.collision.check(this, true, this.collideHandler.bind(this), true);
         
         if(this.alive){
-            if(this.WalkLeft && this.pos.x <= this.startX){
-                this .walkLeft = false; 
-           }else if(!this.WalkLeft && this.pos.x >= this.endX){
+            if(this.walkLeft && this.pos.x <= this.startX){
+                this.walkLeft = false; 
+           }else if(!this.walkLeft && this.pos.x >= this.endX){
                this.walkLeft = true;
             }
             this.flipX(!this.walkLeft);
