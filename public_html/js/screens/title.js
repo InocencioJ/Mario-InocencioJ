@@ -5,11 +5,13 @@ game.TitleScreen = me.ScreenObject.extend({
 	onResetEvent: function() {	
                 me.game.world.addChild( new me.Sprite(0, 0, me.loader.getImage("title-screen")), -10);
                 me.input.bindKey(me.input.KEY.ENTER, "start");
+                /*if i press ENTER during the title screen the game will start*/
                 
                 me.game.world.addChild(new (me.Renderable.extend({
                     init: function(){
                         this._super(me.Renderable, 'init', [510, 30, me.game.viewport.width, me.game.viewport.height]);
                         this.font = new me.Font("Arial", 46, "white");
+                        /*this sets the font and color of the writeing on the screen*/
                         
                     },
                     
@@ -34,5 +36,6 @@ game.TitleScreen = me.ScreenObject.extend({
 	onDestroyEvent: function() {
             me.input.unbindKey(me.input.KEY.ENTER);
             me.event.unsubscribe(this.handler);
+            /*after ENTER is pressed the title screen will disappear*/
 	}
 });

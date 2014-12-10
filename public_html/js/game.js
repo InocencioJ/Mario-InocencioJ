@@ -42,11 +42,14 @@ var game = {
                me.pool.register("mario", game.PlayerEntity, true);
                me.pool.register("BadGuy", game.BadGuy);
                me.pool.register("mushroom", game.Mushroom);
+               /*the codes above tell the proograms that the objects exist and are able to be used*/
             
                 me.pool.register("levelTrigger", game.LevelTrigger);
+                /*this code allows the player to go to a new level*/
             
 		me.state.set(me.state.MENU, new game.TitleScreen());
                 me.state.set(me.state.PLAY, new game.PlayScreen());
+                /*the code takes the player to the menu screen then to the play screen*/
 
 		// Start the game.
 		me.state.change(me.state.MENU);

@@ -4,12 +4,13 @@ game.resources = [
 	 * @example
 	 * {name: "example", type:"image", src: "data/img/example.png"},
 	 */
-        {name: "background-tiles", type:"image", src: "data/img/background-tiles.png"},
-        {name: "meta-tiles", type:"image", src: "data/img/meta-tiles.png"},
-	{name: "mario", type:"image", src: "data/img/player1.png"},
-        {name: "title-screen", type:"image", src: "data/img/title-screen.png"},
-        {name: "slime", type:"image", src: "data/img/slime-spritesheet.png"},
-         {name: "mushroom", type:"image", src: "data/img/mushroom.png"},
+    {name: "background-tiles", type: "image", src: "data/img/background-tiles.png"},
+    {name: "meta-tiles", type: "image", src: "data/img/meta-tiles.png"},
+    {name: "mario", type: "image", src: "data/img/player1.png"},
+    {name: "title-screen", type: "image", src: "data/img/title-screen.png"},
+    {name: "slime", type: "image", src: "data/img/slime-spritesheet.png"},
+    {name: "mushroom", type: "image", src: "data/img/mushroom.png"},
+         /*the codes above help the program to find the object the player wants to use*/
         
         /* Atlases 
 	 * @example
@@ -23,7 +24,8 @@ game.resources = [
  	 */
         {name: "createdmap01", type: "tmx", src: "data/map/createdmap01.tmx"},
         {name: "mapLevel01", type: "tmx", src: "data/map/level5.tmx"},
-        {name: "mapLevel02", type: "tmx", src: "data/map/level4.tmx"},
+        {name: "mapLevel02", type: "tmx", src: "data/map/level4.tmx"}
+        /*this code allows the player to move to an new level*/
         
 	/* Background music. 
 	 * @example
